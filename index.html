@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Você fala ou você fere?</title>
+<meta name="description" content="Os 4 passos da Comunicação Não Violenta, um quiz de perfil comportamental e um jogo para treinar. Trabalho acadêmico de alunos de Psicologia da UniAteneu.">
+<meta property="og:title" content="Você fala ou você fere?">
+<meta property="og:description" content="Os 4 passos da Comunicação Não Violenta, um quiz de perfil comportamental e um jogo para treinar. Trabalho acadêmico de alunos de Psicologia da UniAteneu.">
+<meta property="og:type" content="website">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 3h24a2 2 0 0 1 2 2v17a2 2 0 0 1-2 2H13l-7 6v-6H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z' fill='%231E1A33'/%3E%3C/svg%3E">
+<style>
+@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:200 800;font-display:swap;src:url("fontes/bricolage-grotesque.woff2") format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible Next";font-style:normal;font-weight:400;font-display:swap;src:url("fontes/atkinson-hyperlegible-next-400.woff2") format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible Next";font-style:normal;font-weight:600;font-display:swap;src:url("fontes/atkinson-hyperlegible-next-600.woff2") format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible Next";font-style:normal;font-weight:700;font-display:swap;src:url("fontes/atkinson-hyperlegible-next-700.woff2") format("woff2")}
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+/* Layout: uma coluna de celular lida como uma conversa. O conteúdo vem em balões de mensagem;
+   as quatro cores dos perfis são a única cor saturada da página, todo o resto é tinta e papel. */
+:root{
+  --papel:#F1EFF6; --folha:#FFFFFF; --tinta:#1E1A33; --tinta-2:#575370; --linha:#D6D2E3;
+  --voz-bg:#1E1A33; --voz-fg:#F6F4FB;
+  --d:#C93A29; --d-on:#FFFFFF; --d-wash:#FBE4E0;
+  --i:#F0B323; --i-on:#2A1E00; --i-wash:#FDF1CF;
+  --s:#1B7F53; --s-on:#FFFFFF; --s-wash:#DDF2E7;
+  --c:#2A62CF; --c-on:#FFFFFF; --c-wash:#E0E9FB;
+  --ok:#17704A; --ok-wash:#DDF2E7; --erro:#B5301F; --erro-wash:#FBE4E0;
+  --display:"Bricolage Grotesque","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  --texto:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --t-xs:.8125rem; --t-s:.9375rem; --t-m:1.0625rem; --t-l:1.375rem; --t-xl:1.9rem;
+  --raio:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --papel:#131120; --folha:#1D1A2E; --tinta:#EFEBF9; --tinta-2:#ABA6C4; --linha:#37324D;
+    --voz-bg:#EFEBF9; --voz-fg:#1A1730;
+    --d:#FF7B66; --d-on:#2A0A05; --d-wash:#3A1D1A;
+    --i:#FFC94A; --i-on:#2A1E00; --i-wash:#3A2F12;
+    --s:#4FCB92; --s-on:#04200F; --s-wash:#15332A;
+    --c:#7FA8FF; --c-on:#06163A; --c-wash:#1B2747;
+    --ok:#4FCB92; --ok-wash:#15332A; --erro:#FF7B66; --erro-wash:#3A1D1A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --papel:#131120; --folha:#1D1A2E; --tinta:#EFEBF9; --tinta-2:#ABA6C4; --linha:#37324D;
+  --voz-bg:#EFEBF9; --voz-fg:#1A1730;
+  --d:#FF7B66; --d-on:#2A0A05; --d-wash:#3A1D1A;
+  --i:#FFC94A; --i-on:#2A1E00; --i-wash:#3A2F12;
+  --s:#4FCB92; --s-on:#04200F; --s-wash:#15332A;
+  --c:#7FA8FF; --c-on:#06163A; --c-wash:#1B2747;
+  --ok:#4FCB92; --ok-wash:#15332A; --erro:#FF7B66; --erro-wash:#3A1D1A;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--papel);color:var(--tinta);font-family:var(--texto);font-size:var(--t-m);line-height:1.55;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.08;letter-spacing:-.015em;text-wrap:balance}
+h2{font-size:var(--t-xl);font-weight:750}
+h3{font-size:var(--t-l);font-weight:700;line-height:1.15}
+p,ul,ol,dl,dd,figure{margin:0}
+ul{padding:0;list-style:none}
+strong{font-weight:700}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+
+/* Barra de seções */
+.topo{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--papel);border-bottom:1px solid var(--linha)}
+.topo nav{max-width:40rem;margin-inline:auto;padding:8px 18px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.topo nav::-webkit-scrollbar{display:none}
+.topo a{flex:none;font-size:var(--t-s);font-weight:600;color:var(--tinta);text-decoration:none;padding:9px 13px;border-radius:999px;border:1px solid var(--linha);background:var(--folha)}
+.topo a[aria-current="true"]{background:var(--voz-bg);color:var(--voz-fg);border-color:var(--voz-bg)}
+
+.pagina{max-width:40rem;margin-inline:auto;padding-inline:18px;padding-block:28px 56px;display:flex;flex-direction:column;gap:64px}
+.secao{display:flex;flex-direction:column;gap:18px;scroll-margin-top:calc(72px + env(safe-area-inset-top,0px));min-width:0}
+.pilha{display:flex;flex-direction:column;gap:12px;min-width:0}
+.lide{font-size:1.1875rem;line-height:1.45}
+.nota{font-size:var(--t-s);color:var(--tinta-2)}
+.rotulo{font-size:var(--t-xs);font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--tinta-2)}
+
+/* Abertura */
+.abre h1{font-size:clamp(3rem,15vw,5rem);font-weight:800;line-height:.92;letter-spacing:-.035em}
+.abre h1 .fere{text-decoration:underline wavy;text-decoration-thickness:.07em;text-underline-offset:.12em}
+
+/* Balões */
+.conversa{display:flex;flex-direction:column;gap:6px;min-width:0}
+.balao{max-width:94%;padding:13px 16px;border-radius:20px;line-height:1.45;overflow-wrap:anywhere}
+.balao.fere{align-self:flex-start;background:var(--folha);border:1.5px solid var(--linha);border-bottom-left-radius:5px}
+.balao.fala{align-self:flex-end;background:var(--voz-bg);color:var(--voz-fg);border-bottom-right-radius:5px}
+.conversa .rotulo.dir{align-self:flex-end}
+.balao .n{display:inline-grid;place-items:center;width:1.3em;height:1.3em;border-radius:50%;background:var(--voz-fg);color:var(--voz-bg);font-size:.72em;font-weight:700;margin-right:.3em;vertical-align:.12em}
+
+.chave{display:inline-flex;align-self:flex-start;padding:4px;border-radius:999px;background:var(--folha);border:1px solid var(--linha);gap:4px}
+.chave button{font:inherit;font-weight:700;border:0;background:transparent;color:var(--tinta);padding:9px 20px;border-radius:999px;cursor:pointer}
+.chave button[aria-pressed="true"]{background:var(--voz-bg);color:var(--voz-fg)}
+
+/* Chacal e girafa */
+.bichos{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:12px}
+.bicho{background:var(--folha);border:1px solid var(--linha);border-radius:var(--raio);padding:16px;display:flex;flex-direction:column;gap:6px}
+.bicho h3{font-size:1.1875rem}
+.motivos{display:flex;flex-direction:column;gap:10px}
+.motivos li{padding-left:1.1em;position:relative}
+.motivos li::before{content:"";position:absolute;left:0;top:.62em;width:.45em;height:.45em;border-radius:50%;background:var(--tinta)}
+
+/* Os 4 passos */
+.passo{background:var(--folha);border:1px solid var(--linha);border-radius:var(--raio)}
+.passo summary{display:flex;gap:14px;align-items:center;padding:14px 16px;cursor:pointer;list-style:none;border-radius:var(--raio)}
+.passo summary::-webkit-details-marker{display:none}
+.passo summary::after{content:"+";font-family:var(--display);font-size:1.6rem;font-weight:500;line-height:1;color:var(--tinta-2)}
+.passo[open] summary::after{content:"\2013"}
+.num{flex:none;width:2.4rem;height:2.4rem;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.2rem;background:var(--voz-bg);color:var(--voz-fg)}
+.passo .tit{display:flex;flex-direction:column;flex:1;min-width:0}
+.passo .tit strong{font-family:var(--display);font-size:1.25rem;line-height:1.15}
+.passo .tit span{font-size:var(--t-s);color:var(--tinta-2)}
+.passo dl{padding:0 16px 18px;display:flex;flex-direction:column;gap:12px}
+.passo dt{font-size:var(--t-xs);font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--tinta-2);margin-bottom:2px}
+
+/* Cartão de atividade (quiz, jogo, frase) */
+.caixa{background:var(--folha);border:1px solid var(--linha);border-radius:var(--raio);padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0;scroll-margin-top:calc(72px + env(safe-area-inset-top,0px))}
+.placar{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:var(--t-s);color:var(--tinta-2);font-variant-numeric:tabular-nums}
+.placar strong{color:var(--tinta);font-family:var(--display);font-size:1.125rem}
+.trilha{display:flex;gap:4px}
+.trilha i{flex:1;height:6px;border-radius:3px;background:var(--linha)}
+.trilha i.feito{background:var(--tinta)}
+.pergunta{font-size:var(--t-l)}
+.pergunta:focus{outline:none}
+.opcoes{display:flex;flex-direction:column;gap:10px}
+.opcao{font:inherit;text-align:left;width:100%;padding:14px 16px;border-radius:14px;border:1.5px solid var(--linha);background:var(--folha);color:var(--tinta);cursor:pointer;display:flex;flex-direction:column;gap:6px;line-height:1.4}
+.opcao:hover:not(:disabled){border-color:var(--tinta)}
+.opcao:disabled{cursor:default;color:var(--tinta);opacity:1}
+.opcao .tipo{align-self:flex-start;font-size:var(--t-xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:6px;background:var(--erro-wash);color:var(--erro)}
+.opcao.certa{border-color:var(--ok);background:var(--ok-wash)}
+.opcao.certa .tipo{background:var(--ok);color:var(--folha)}
+.opcao.marcada{border-width:3px;padding:12.5px 14.5px}
+.opcao.marcada:not(.certa){border-color:var(--erro)}
+
+.btn{font:inherit;font-weight:700;border:0;border-radius:999px;padding:13px 22px;background:var(--voz-bg);color:var(--voz-fg);cursor:pointer;align-self:flex-start}
+.btn.leve{background:transparent;color:var(--tinta);border:1.5px solid var(--linha)}
+.linha-btn{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* Perfis */
+[data-p="D"]{--cor:var(--d);--cor-on:var(--d-on);--cor-wash:var(--d-wash)}
+[data-p="I"]{--cor:var(--i);--cor-on:var(--i-on);--cor-wash:var(--i-wash)}
+[data-p="S"]{--cor:var(--s);--cor-on:var(--s-on);--cor-wash:var(--s-wash)}
+[data-p="C"]{--cor:var(--c);--cor-on:var(--c-on);--cor-wash:var(--c-wash)}
+.selo{flex:none;display:inline-grid;place-items:center;width:2.1rem;height:2.1rem;border-radius:10px;font-family:var(--display);font-weight:800;font-size:1.15rem;background:var(--cor);color:var(--cor-on)}
+.perfis{display:flex;flex-direction:column;gap:14px}
+.perfil{border-radius:var(--raio);overflow:hidden;background:var(--cor-wash);scroll-margin-top:calc(72px + env(safe-area-inset-top,0px))}
+.perfil header{background:var(--cor);color:var(--cor-on);padding:14px 18px;display:flex;align-items:center;gap:14px}
+.perfil header .letra{font-family:var(--display);font-weight:800;font-size:2.6rem;line-height:.9;flex:none;width:1.1em;text-align:center}
+.perfil header h3{font-size:1.4rem}
+.perfil header p{font-size:var(--t-s);line-height:1.3}
+.perfil dl{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px}
+.perfil dt{font-size:var(--t-xs);font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.contagem{display:flex;flex-direction:column;gap:8px}
+.contagem li{display:flex;align-items:center;gap:10px;font-size:var(--t-s);font-variant-numeric:tabular-nums}
+.contagem .selo{width:1.7rem;height:1.7rem;font-size:.95rem;border-radius:8px}
+.contagem .nome{width:6.6rem;flex:none}
+.pingos{display:flex;gap:3px;flex:1;min-width:0}
+.pingos i{flex:1;max-width:14px;height:14px;border-radius:4px;background:var(--linha)}
+.pingos i.sim{background:var(--cor)}
+.resultado{border-radius:14px;background:var(--cor-wash);padding:16px;display:flex;flex-direction:column;gap:10px}
+.resultado .cab{display:flex;align-items:center;gap:10px}
+.resultado h4{margin:0;font-family:var(--display);font-size:1.25rem;line-height:1.15}
+.tese{font-family:var(--display);font-size:1.3rem;font-weight:600;line-height:1.25;letter-spacing:-.01em}
+
+/* Jogo */
+.com-quem{display:flex;gap:12px;align-items:center;background:var(--cor-wash);border-radius:14px;padding:12px 14px}
+.com-quem .quem{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+.com-quem .quem strong{font-family:var(--display);font-size:1.2rem}
+.com-quem .quem span{font-size:var(--t-s)}
+.situ{font-size:1.125rem;line-height:1.45}
+.etq{display:inline-block;font-size:var(--t-xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:6px;border:1px solid var(--linha);color:var(--tinta-2);margin-right:6px;vertical-align:.1em}
+.retorno{border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;background:var(--erro-wash)}
+.retorno.acerto{background:var(--ok-wash)}
+.retorno:focus{outline:none}
+.retorno strong.veredito{font-family:var(--display);font-size:1.2rem}
+.pontuacao{font-family:var(--display);font-weight:800;font-size:3.2rem;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.pontuacao small{font-size:1.1rem;font-weight:600;letter-spacing:0;color:var(--tinta-2)}
+
+/* Monte sua frase */
+.campo{display:flex;flex-direction:column;gap:6px;min-width:0}
+.campo label{display:flex;align-items:center;gap:10px;font-weight:700}
+.campo label .num{width:1.7rem;height:1.7rem;font-size:.95rem}
+.campo label em{font-style:normal;font-weight:400;color:var(--tinta-2)}
+.campo input,.campo textarea{font:inherit;font-size:1rem;line-height:1.4;width:100%;min-width:0;padding:12px 14px;border-radius:12px;border:1.5px solid var(--linha);background:var(--papel);color:var(--tinta);resize:vertical}
+.campo input:focus,.campo textarea:focus{outline:3px solid var(--c);outline-offset:1px;border-color:transparent}
+.fichas{display:flex;flex-wrap:wrap;gap:6px}
+.ficha{font:inherit;font-size:var(--t-s);padding:6px 11px;border-radius:999px;border:1px solid var(--linha);background:transparent;color:var(--tinta);cursor:pointer}
+.ficha:hover{border-color:var(--tinta)}
+.dica{font-size:var(--t-s);background:var(--i-wash);border-radius:10px;padding:8px 12px}
+.aviso{font-size:var(--t-s);color:var(--tinta-2);min-height:1.4em}
+
+/* CNV hoje */
+.cena{display:flex;flex-direction:column;gap:12px;padding-top:18px;border-top:1px solid var(--linha)}
+.cena h3{font-size:1.25rem}
+
+/* Desafio e rodapé */
+.desafio{background:var(--voz-bg);color:var(--voz-fg);border-radius:var(--raio);padding:22px 20px;display:flex;flex-direction:column;gap:8px}
+.desafio h2{font-size:1.6rem}
+.rodape{display:flex;flex-direction:column;gap:18px;padding-top:24px;border-top:1px solid var(--linha);font-size:var(--t-s);color:var(--tinta-2)}
+.rodape h2{font-size:1.125rem;color:var(--tinta)}
+.rodape .refs{display:flex;flex-direction:column;gap:8px}
+
+@media (prefers-reduced-motion: no-preference){
+  .balao.entra{animation:entra .28s ease-out}
+  @keyframes entra{from{transform:translateY(6px) scale(.98);opacity:.4}to{transform:none;opacity:1}}
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <nav aria-label="Seções da página">
+    <a href="#passos">Passos</a>
+    <a href="#perfil">Perfil</a>
+    <a href="#jogo">Jogo</a>
+    <a href="#frase">Frase</a>
+    <a href="#hoje">Hoje</a>
+  </nav>
+</header>
+
+<main class="pagina">
+
+  <section class="secao abre" id="inicio">
+    <p class="rotulo">Comunicação Não Violenta · leitura de 5 minutos</p>
+    <h1>Você fala ou você <span class="fere">fere?</span></h1>
+    <p class="lide">O panfleto fez a pergunta. Aqui você aprende os 4 passos da Comunicação Não Violenta, descobre o seu perfil de comportamento e treina num jogo rápido.</p>
+
+    <div class="pilha">
+      <p class="rotulo">A mesma reclamação, de dois jeitos</p>
+      <div class="chave" role="group" aria-label="Escolha a versão da fala">
+        <button type="button" id="ver-fere" aria-pressed="true">Fere</button>
+        <button type="button" id="ver-fala" aria-pressed="false">Fala</button>
+      </div>
+      <div class="conversa" id="demo-fere">
+        <p class="balao fere">Você nunca me escuta! Só liga para esse celular.</p>
+        <p class="nota">Exagero, rótulo e acusação. Quem ouve se defende em vez de escutar.</p>
+      </div>
+      <div class="conversa" id="demo-fala" hidden>
+        <p class="balao fala"><span><b class="n">1</b>Quando eu falo e você olha o celular,</span> <span><b class="n">2</b>eu fico triste,</span> <span><b class="n">3</b>porque preciso de atenção quando conto algo importante.</span> <span><b class="n">4</b>Você pode deixar o celular de lado enquanto a gente conversa?</span></p>
+        <p class="nota">O mesmo assunto em 4 passos: 1 observação, 2 sentimento, 3 necessidade, 4 pedido.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" id="oque">
+    <h2>O que é Comunicação Não Violenta</h2>
+    <p>A Comunicação Não Violenta (CNV) é um jeito de falar e de ouvir criado pelo psicólogo norte-americano Marshall Rosenberg (1934–2015). A proposta é dizer o que você observa, sente, precisa e pede, sem julgar, culpar nem exigir. E ouvir o outro da mesma forma.</p>
+    <p>Violência na fala não é só grito e xingamento. Rótulo (“você é preguiçoso”), comparação, culpa, ameaça e exigência também ferem, mesmo em voz baixa.</p>
+    <p>Rosenberg ensinava com dois bichos:</p>
+    <div class="bichos">
+      <div class="bicho">
+        <h3>O chacal</h3>
+        <p>Julga, culpa e exige. É a fala no automático.</p>
+        <p class="nota">“Você é egoísta.”</p>
+      </div>
+      <div class="bicho">
+        <h3>A girafa</h3>
+        <p>É o animal terrestre de maior coração. Fala a partir do que sente e precisa.</p>
+        <p class="nota">“Fiquei triste quando você saiu sem avisar.”</p>
+      </div>
+    </div>
+    <h3>Por que isso importa</h3>
+    <ul class="motivos">
+      <li><strong>Menos briga.</strong> O conflito é tratado quando ainda é uma conversa.</li>
+      <li><strong>Relações mais honestas.</strong> Você diz o que precisa sem atacar, e o outro consegue ouvir.</li>
+      <li><strong>Mais clareza sobre você.</strong> Dar nome ao que sente e ao que precisa já organiza a cabeça.</li>
+    </ul>
+  </section>
+
+  <section class="secao" id="passos">
+    <h2>Os 4 passos</h2>
+    <p>Sempre nesta ordem. Toque em cada passo para ver o exemplo e o erro mais comum.</p>
+    <div class="pilha">
+      <details class="passo" open>
+        <summary><span class="num">1</span><span class="tit"><strong>Observação</strong><span>O que aconteceu, sem julgar</span></span></summary>
+        <dl>
+          <div><dt>Como fazer</dt><dd>Descreva o fato como uma câmera registraria. Sem adjetivo, sem “sempre”, sem “nunca”.</dd></div>
+          <div><dt>Exemplo</dt><dd>“Nas três últimas reuniões, você chegou 30 minutos depois do horário combinado.”</dd></div>
+          <div><dt>Erro mais comum</dt><dd>Misturar fato com julgamento: “Você é irresponsável”, “Você sempre se atrasa”.</dd></div>
+        </dl>
+      </details>
+      <details class="passo">
+        <summary><span class="num">2</span><span class="tit"><strong>Sentimento</strong><span>O que você sente diante disso</span></span></summary>
+        <dl>
+          <div><dt>Como fazer</dt><dd>Dê nome à emoção: tristeza, preocupação, frustração, medo, raiva, alívio, alegria.</dd></div>
+          <div><dt>Exemplo</dt><dd>“Eu fico frustrada e preocupada.”</dd></div>
+          <div><dt>Erro mais comum</dt><dd>Disfarçar acusação de sentimento: “Sinto que você não liga para mim”, “Me sinto ignorado”. Isso é opinião sobre o outro, não emoção sua.</dd></div>
+        </dl>
+      </details>
+      <details class="passo">
+        <summary><span class="num">3</span><span class="tit"><strong>Necessidade</strong><span>O que é importante para você</span></span></summary>
+        <dl>
+          <div><dt>Como fazer</dt><dd>Diga o que está por trás do sentimento: respeito, descanso, segurança, apoio, escuta. Todo sentimento aponta para uma necessidade atendida ou não.</dd></div>
+          <div><dt>Exemplo</dt><dd>“Porque preciso de previsibilidade para organizar o meu dia.”</dd></div>
+          <div><dt>Erro mais comum</dt><dd>Confundir necessidade com pedido. “Preciso que você chegue na hora” é pedido. Necessidade não depende de uma pessoa específica.</dd></div>
+        </dl>
+      </details>
+      <details class="passo">
+        <summary><span class="num">4</span><span class="tit"><strong>Pedido</strong><span>Uma ação concreta, que aceita “não”</span></span></summary>
+        <dl>
+          <div><dt>Como fazer</dt><dd>Peça algo que a pessoa consiga fazer agora, dito pelo lado positivo. Se você não aceita um “não”, é exigência.</dd></div>
+          <div><dt>Exemplo</dt><dd>“Você pode me avisar por mensagem quando perceber que vai se atrasar?”</dd></div>
+          <div><dt>Erro mais comum</dt><dd>Pedir o que não quer (“para de se atrasar”) ou algo vago (“seja mais responsável”).</dd></div>
+        </dl>
+      </details>
+    </div>
+    <div class="conversa">
+      <p class="rotulo dir">Frase-modelo</p>
+      <p class="balao fala">Quando vejo ___, eu sinto ___, porque preciso de ___. Você poderia ___?</p>
+    </div>
+    <h3>A outra metade: ouvir</h3>
+    <p>A CNV tem duas mãos. Uma é falar com honestidade. A outra é a escuta empática: antes de responder, tentar entender o sentimento e a necessidade de quem fala.</p>
+    <div class="conversa">
+      <p class="balao fere">Ninguém me ajuda nesta casa!</p>
+      <p class="balao fala">Você está cansada e queria dividir as tarefas?</p>
+    </div>
+    <p class="nota">Quem escuta não se defende nem dá conselho. Só confere se entendeu.</p>
+  </section>
+
+  <section class="secao" id="perfil">
+    <h2>Qual é o seu perfil?</h2>
+    <p>Perfil comportamental é a tendência de cada pessoa ao agir e se comunicar. O modelo mais conhecido é o DISC, baseado nas ideias do psicólogo William Moulton Marston no livro <em>Emotions of Normal People</em>, de 1928. Ele descreve quatro tendências: Dominância, Influência, Estabilidade e Conformidade.</p>
+    <p>Ninguém é um perfil só. Todo mundo tem os quatro, em doses diferentes, e a dose muda conforme o lugar e o momento.</p>
+    <div class="caixa" id="quiz" aria-live="polite"></div>
+    <p class="nota">Atividade educativa. Não é teste psicológico e não serve como diagnóstico.</p>
+
+    <h3 id="perfis-titulo">Os 4 perfis a fundo</h3>
+    <div class="perfis" id="perfis"></div>
+
+    <p class="tese">O perfil mostra onde cada pessoa costuma escorregar e como ela precisa ouvir. A CNV dá o jeito de falar. Os 4 passos são sempre os mesmos: muda a dose de cada um para quem está do outro lado.</p>
+  </section>
+
+  <section class="secao" id="jogo">
+    <h2>Jogo: fale com cada perfil</h2>
+    <p>São 8 situações. Em cada uma, escolha a resposta em CNV que combina com o perfil de quem vai ouvir. Cada acerto vale 10 pontos.</p>
+    <div class="caixa" id="jogo-caixa"></div>
+  </section>
+
+  <section class="secao" id="frase">
+    <h2>Monte sua frase</h2>
+    <p>Pense em uma conversa que você está adiando. Preencha os 4 passos e veja a frase pronta.</p>
+    <div class="caixa">
+      <p class="nota">Os campos já vêm com um exemplo. Troque pelas suas palavras. O que você escreve fica só no seu aparelho.</p>
+      <div class="campo">
+        <label for="f-obs"><span class="num">1</span>Observação <em>Quando…</em></label>
+        <textarea id="f-obs" rows="2" autocomplete="off">você chega depois do horário combinado</textarea>
+        <p class="dica" id="d-obs" hidden></p>
+      </div>
+      <div class="campo">
+        <label for="f-sen"><span class="num">2</span>Sentimento <em>eu sinto…</em></label>
+        <input id="f-sen" type="text" autocomplete="off" value="frustração">
+        <div class="fichas" data-alvo="f-sen" aria-label="Sugestões de sentimento"></div>
+        <p class="dica" id="d-sen" hidden></p>
+      </div>
+      <div class="campo">
+        <label for="f-nec"><span class="num">3</span>Necessidade <em>porque preciso de…</em></label>
+        <textarea id="f-nec" rows="2" autocomplete="off">previsibilidade para organizar meu dia</textarea>
+        <div class="fichas" data-alvo="f-nec" aria-label="Sugestões de necessidade"></div>
+        <p class="dica" id="d-nec" hidden></p>
+      </div>
+      <div class="campo">
+        <label for="f-ped"><span class="num">4</span>Pedido <em>Você poderia…</em></label>
+        <textarea id="f-ped" rows="2" autocomplete="off">me avisar por mensagem quando for se atrasar</textarea>
+        <p class="dica" id="d-ped" hidden></p>
+      </div>
+      <div class="conversa">
+        <p class="rotulo dir">Sua frase</p>
+        <p class="balao fala" id="f-saida"></p>
+      </div>
+      <div class="linha-btn">
+        <button type="button" class="btn" id="f-copiar">Copiar frase</button>
+        <button type="button" class="btn leve" id="f-limpar">Limpar campos</button>
+      </div>
+      <p class="aviso" id="f-aviso" role="status"></p>
+    </div>
+  </section>
+
+  <section class="secao" id="hoje">
+    <h2>CNV no dia a dia de hoje</h2>
+    <p>Boa parte das conversas agora acontece por tela, com pressa e sem tom de voz. É onde a fala no automático mais fere.</p>
+
+    <div class="cena">
+      <h3><span class="etq">WhatsApp e redes</span>A mensagem visualizada e sem resposta</h3>
+      <div class="conversa">
+        <p class="rotulo">No automático</p>
+        <p class="balao fere">Visualizou e não respondeu. Beleza, já entendi tudo.</p>
+        <p class="rotulo dir">Em CNV</p>
+        <p class="balao fala">Mandei mensagem ontem e não tive resposta. Bateu insegurança, porque preciso saber se está tudo bem entre a gente. Você pode me responder quando tiver um tempo?</p>
+      </div>
+      <p class="nota">Texto não tem tom de voz. Na dúvida, pergunte antes de concluir. Conversa difícil rende mais por áudio ou ao vivo.</p>
+    </div>
+
+    <div class="cena">
+      <h3><span class="etq">Família</span>O celular na mesa do jantar</h3>
+      <div class="conversa">
+        <p class="rotulo">No automático</p>
+        <p class="balao fere">Larga esse celular! Você não respeita ninguém.</p>
+        <p class="rotulo dir">Em CNV</p>
+        <p class="balao fala">Estamos jantando e você está no celular. Sinto saudade de conversar com você, porque esse é o nosso momento juntos. Pode deixar o celular no quarto durante o jantar?</p>
+      </div>
+    </div>
+
+    <div class="cena">
+      <h3><span class="etq">Trabalho</span>A interrupção na reunião</h3>
+      <div class="conversa">
+        <p class="rotulo">No automático</p>
+        <p class="balao fere">Você nunca me deixa falar.</p>
+        <p class="rotulo dir">Em CNV</p>
+        <p class="balao fala">Na reunião de hoje, você começou a falar três vezes antes de eu terminar. Senti frustração, porque preciso de espaço para concluir meu raciocínio. Você pode esperar eu terminar antes de comentar?</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="desafio">
+    <h2>Desafio de hoje</h2>
+    <p>Use os 4 passos em uma conversa. Uma só. Depois repare no que mudou em você e na outra pessoa.</p>
+  </div>
+
+  <footer class="rodape">
+    <p><strong>Atividade educativa.</strong> O quiz não é teste psicológico e não serve como diagnóstico. O DISC é um modelo descritivo de uso popular, com validação científica limitada: use para conversar, não para rotular. Esta página não coleta nem envia nenhum dado.</p>
+    <div class="refs">
+      <h2>Referências</h2>
+      <p>MARSTON, William Moulton. <strong>Emotions of normal people</strong>. London: Kegan Paul, Trench, Trubner &amp; Co., 1928.</p>
+      <p>ROSENBERG, Marshall B. <strong>Comunicação não-violenta</strong>: técnicas para aprimorar relacionamentos pessoais e profissionais. Tradução de Mário Vilela. São Paulo: Ágora, 2006.</p>
+    </div>
+    <p>Trabalho acadêmico de alunos do curso de Psicologia da UniAteneu. Tema: análise eficiente dos perfis comportamentais como ferramentas da comunicação não violenta na sociedade contemporânea.</p>
+  </footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+document.documentElement.lang = 'pt-BR';
+
+/* ---------- Conteúdo: modelo de perfis (trocar aqui se o modelo mudar) ---------- */
+var PERFIS = {
+  D:{letra:'D', nome:'Dominância', resumo:'Direto, rápido, focado em resultado.',
+     fala:'Curto e sem rodeio. Vai logo para a decisão.',
+     armadilha:'Soar agressivo, atropelar e transformar pedido em ordem.',
+     ouve:'Comece pelo ponto principal. Seja objetivo e faça um pedido claro, de preferência com opções.',
+     exemplo:'“O relatório chegou dois dias depois do prazo. Senti preocupação, porque preciso cumprir o que prometi ao cliente. Você pode me avisar um dia antes quando for atrasar?”',
+     forte:'Clareza e coragem para dizer o que precisa. O passo 4, o pedido, é fácil para você.',
+     escorrega:'Pular direto para a exigência e esquecer o que o outro sente.',
+     dica:'Treine o passo 2. Antes de pedir, diga o que você sente e pergunte como o outro está. E aceite ouvir “não”.'},
+  I:{letra:'I', nome:'Influência', resumo:'Comunicativo, entusiasmado, sociável.',
+     fala:'Com emoção, histórias e bom humor. Muda de assunto rápido.',
+     armadilha:'Falar muito e ouvir pouco. Exagerar e prometer mais do que cumpre.',
+     ouve:'Com acolhimento. Reconheça a pessoa primeiro e faça o pedido depois, com dia e hora. Poucos detalhes por vez.',
+     exemplo:'“Gosto muito de fazer trabalho com você. Sua parte não chegou ontem e bateu preocupação, porque preciso de tranquilidade para fechar tudo. Consegue me mandar até amanhã às 18h?”',
+     forte:'Facilidade para falar de sentimento e criar conexão.',
+     escorrega:'Falar mais do que ouvir e usar “sempre” e “nunca”.',
+     dica:'Treine o passo 1. Descreva o fato sem enfeite e ouça até o fim antes de responder.'},
+  S:{letra:'S', nome:'Estabilidade', resumo:'Calmo, paciente, busca harmonia.',
+     fala:'Com cuidado e em voz baixa. Evita conflito e prefere concordar.',
+     armadilha:'Engolir o que sente e dizer “sim” querendo dizer “não”.',
+     ouve:'Sem pressa e sem pressão. Avise antes das mudanças, dê tempo para pensar e mostre que a relação está segura.',
+     exemplo:'“Vi que você ficou até mais tarde três dias seguidos. Senti preocupação, porque seu descanso é importante para mim. Pode pensar com calma e me dizer amanhã o que eu posso assumir?”',
+     forte:'Escuta e empatia naturais. As pessoas se sentem seguras com você.',
+     escorrega:'Calar a própria necessidade para não criar conflito.',
+     dica:'Treine os passos 3 e 4. Diga do que você precisa e faça um pedido. Pedir não é brigar.'},
+  C:{letra:'C', nome:'Conformidade', resumo:'Analítico, preciso, cuidadoso com regras e qualidade.',
+     fala:'Com dados, detalhes e perguntas. Pensa antes de responder.',
+     armadilha:'Fazer crítica fria, corrigir demais e parecer distante.',
+     ouve:'Com fatos, números e exemplos concretos. Dê tempo para analisar e evite exagero.',
+     exemplo:'“Recebi as 20 correções e vou usar. Senti desânimo, porque também preciso saber o que está funcionando. Nas próximas, pode marcar dois pontos que ficaram bons?”',
+     forte:'Observar o fato sem exagero. O passo 1 é natural para você.',
+     escorrega:'Ficar só no fato e soar frio ou crítico.',
+     dica:'Treine o passo 2. Dê nome ao que você sente: fato sem sentimento vira cobrança.'}
+};
+var ORDEM = ['D','I','S','C'];
+
+var QUIZ = [
+  {p:'Num trabalho em grupo, você costuma:', o:[
+    ['S','Ajudar onde precisar e manter o clima bom.'],
+    ['D','Assumir a frente e dividir as tarefas.'],
+    ['C','Organizar as etapas e conferir se está tudo certo.'],
+    ['I','Animar o grupo e puxar as ideias.']]},
+  {p:'Quando alguém discorda de você, você:', o:[
+    ['I','Tenta convencer com conversa e bom humor.'],
+    ['C','Pede os fatos e mostra os seus.'],
+    ['D','Defende seu ponto na hora, sem rodeio.'],
+    ['S','Prefere ceder a criar um clima ruim.']]},
+  {p:'No WhatsApp, suas mensagens são:', o:[
+    ['D','Curtas e diretas: “Ok.” “Feito.”'],
+    ['S','Educadas, com “bom dia” e “sem pressa”.'],
+    ['I','Cheias de áudio, emoji e figurinha.'],
+    ['C','Completas, com todos os detalhes.']]},
+  {p:'Para decidir algo importante, você:', o:[
+    ['C','Pesquisa, compara e só então decide.'],
+    ['I','Conversa com várias pessoas e segue o que sente.'],
+    ['S','Pensa com calma e prefere o que já conhece.'],
+    ['D','Decide rápido e ajusta depois.']]},
+  {p:'O que mais incomoda você:', o:[
+    ['S','Briga e mudança de última hora.'],
+    ['C','Erro, bagunça e informação pela metade.'],
+    ['D','Lentidão e enrolação.'],
+    ['I','Frieza e ficar de fora.']]},
+  {p:'Sob pressão, você tende a:', o:[
+    ['I','Falar mais alto e se dispersar.'],
+    ['D','Ficar impaciente e dar ordens.'],
+    ['C','Ficar crítico e se fechar.'],
+    ['S','Ficar quieto e guardar para si.']]},
+  {p:'O elogio que mais alegra você:', o:[
+    ['C','“Seu trabalho é impecável.”'],
+    ['S','“Posso sempre contar com você.”'],
+    ['I','“É bom demais ter você por perto.”'],
+    ['D','“Com você, as coisas se resolvem.”']]},
+  {p:'Numa fila que não anda, você:', o:[
+    ['D','Procura o responsável para resolver.'],
+    ['I','Puxa conversa com quem está do lado.'],
+    ['S','Espera com paciência.'],
+    ['C','Observa onde está o problema e calcula a demora.']]}
+];
+
+var JOGO = [
+  {perfil:'D', onde:'Trabalho', situ:'Sua chefe cobrou você por um atraso na frente da equipe inteira. Você vai falar com ela depois da reunião.', op:[
+    {t:'cnv', fala:'“Hoje você falou do meu atraso na frente da equipe. Fiquei com vergonha, porque respeito é importante para mim. Da próxima vez, pode falar comigo em particular?”', por:'Curta e direta, como a Dominância gosta de ouvir: o fato, o que você sentiu, o que precisa e um pedido claro.'},
+    {t:'agr', fala:'“Você me humilhou na frente de todo mundo. Isso é falta de respeito.”', por:'“Humilhou” e “falta de respeito” são julgamentos, não o fato. Com a Dominância, ataque vira disputa.'},
+    {t:'pas', fala:'Não falar nada e torcer para não se repetir.', por:'Sem pedido, ela nem fica sabendo que afetou você. A necessidade continua sem resposta.'}]},
+  {perfil:'D', onde:'Família', situ:'Seu irmão escolheu sozinho o lugar do almoço de domingo e só avisou no grupo da família.', op:[
+    {t:'cnv', fala:'“Você avisou o lugar sem perguntar antes. Fiquei triste, porque gosto de participar das decisões da família. Na próxima, pode mandar duas opções para a gente votar?”', por:'O pedido já chega com uma solução prática. A Dominância respeita quem é objetivo e propõe um caminho.'},
+    {t:'agr', fala:'“Você sempre manda em tudo. Quem você pensa que é?”', por:'“Sempre” é exagero, não observação. E a pergunta final é um ataque, não um pedido.'},
+    {t:'pas', fala:'“Tá bom, tanto faz.”', por:'Você disse o contrário do que sente. Sem sentimento e sem pedido, a situação se repete.'}]},
+  {perfil:'I', onde:'Faculdade', situ:'Sua colega de grupo é animada e querida, mas esqueceu pela segunda vez a parte dela do trabalho.', op:[
+    {t:'cnv', fala:'“Gosto muito de fazer trabalho com você. A sua parte não chegou no prazo e bateu preocupação, porque preciso de tranquilidade para fechar tudo. Consegue me mandar até amanhã às 18h?”', por:'A Influência ouve melhor quando se sente acolhida. Primeiro o vínculo, depois o fato e um pedido com dia e hora.'},
+    {t:'agr', fala:'“Você é irresponsável. Só sabe falar.”', por:'É um rótulo sobre a pessoa, não o fato. Para a Influência, crítica pessoal dói em dobro e fecha a conversa.'},
+    {t:'pas', fala:'Fazer a parte dela e não comentar.', por:'Você resolve hoje e acumula mágoa. Sem pedido, ela não tem como mudar.'}]},
+  {perfil:'I', onde:'Redes sociais', situ:'Um amigo postou uma foto sua sem perguntar. Você não gostou de como saiu.', op:[
+    {t:'cnv', fala:'No privado: “Vi que você postou nossa foto, imagino que foi com carinho. Fiquei sem graça, porque gosto de escolher o que aparece de mim. Pode apagar e me perguntar antes da próxima?”', por:'Em privado e com calor. A Influência se importa com a imagem e com a amizade: sem plateia, ela escuta.'},
+    {t:'agr', fala:'Comentar no post: “Apaga isso agora. Que falta de noção.”', por:'Exigência em público, com julgamento. Expor a Influência na frente dos outros vira briga.'},
+    {t:'pas', fala:'Curtir a foto e ficar remoendo.', por:'O sentimento ficou guardado e o pedido não existiu. Ele vai postar de novo.'}]},
+  {perfil:'S', onde:'Casa', situ:'Sua mãe faz tudo em casa e nunca reclama. Você percebeu que ela anda exausta.', op:[
+    {t:'cnv', fala:'“Mãe, vi você lavando louça às 11 da noite. Senti preocupação, porque seu descanso é importante para mim. Com calma, me diz: que tarefa eu posso assumir esta semana?”', por:'A Estabilidade não costuma pedir. Sem pressão e com uma pergunta aberta, ela ganha espaço para dizer do que precisa.'},
+    {t:'agr', fala:'“Você que quer fazer tudo sozinha. Depois não reclama.”', por:'É culpa jogada nela. Diante de culpa, a Estabilidade se cala ainda mais.'},
+    {t:'pas', fala:'Deixar como está, já que ela não reclama.', por:'O silêncio da Estabilidade não quer dizer que está tudo bem. Faltou observar e perguntar.'}]},
+  {perfil:'S', onde:'Trabalho', situ:'Você precisa avisar um colega tranquilo, de rotina certinha, que o turno dele muda na semana que vem.', op:[
+    {t:'cnv', fala:'“Seu turno da semana que vem passou para a tarde. Senti preocupação com o impacto na sua rotina, porque quero que funcione para nós dois. Pode pensar com calma e me dizer amanhã o que você precisa?”', por:'A Estabilidade precisa de tempo e segurança. Avisar antes, sem pressa, e abrir espaço para ela falar.'},
+    {t:'agr', fala:'“Mudou a escala. É assim e pronto.”', por:'Ordem sem escuta. A Estabilidade vai dizer “tudo bem” e sofrer calada.'},
+    {t:'pas', fala:'Trocar na planilha e esperar que ele veja.', por:'Fugir da conversa não é cuidado. Mudança de surpresa é o que mais abala esse perfil.'}]},
+  {perfil:'C', onde:'Trabalho', situ:'Um colega devolveu seu texto com 20 correções e nenhum comentário sobre o que ficou bom.', op:[
+    {t:'cnv', fala:'“Recebi as 20 correções e vou usar. Senti desânimo, porque também preciso saber o que está funcionando. Nas próximas, pode marcar dois pontos que ficaram bons?”', por:'Fato, número e pedido específico. A Conformidade responde bem ao que é preciso e dá para medir.'},
+    {t:'agr', fala:'“Você só sabe apontar defeito. Ninguém aguenta.”', por:'“Só sabe” e “ninguém aguenta” são generalizações. A Conformidade vai pedir provas e a conversa trava.'},
+    {t:'pas', fala:'Aceitar tudo e nunca mais mostrar um texto a ele.', por:'Você perde uma boa revisão e ele não descobre o que faz falta para você.'}]},
+  {perfil:'C', onde:'WhatsApp', situ:'No grupo da família, seu tio corrigiu com dados e links uma notícia que você compartilhou.', op:[
+    {t:'cnv', fala:'No privado: “Tio, você corrigiu a notícia que mandei, e estava certo. Fiquei com vergonha por ter sido no grupo, porque cuidado é importante para mim. Quando eu errar, pode me avisar no privado primeiro?”', por:'Reconhecer o fato vem primeiro: a Conformidade valoriza precisão. Depois, um pedido lógico e específico.'},
+    {t:'agr', fala:'“Lá vem o sabe-tudo. Ninguém te perguntou.”', por:'É um rótulo. E ignora que o fato estava certo, o que para a Conformidade encerra o assunto.'},
+    {t:'pas', fala:'Sair do grupo sem dizer nada.', por:'Ele não sabe o que você sentiu nem o que você pede. O incômodo vai junto com você.'}]}
+];
+var TIPO = {cnv:'CNV', agr:'Agressiva', pas:'Passiva'};
+var SENTIMENTOS = ['tristeza','preocupação','frustração','medo','raiva','cansaço','vergonha','saudade'];
+var NECESSIDADES = ['respeito','descanso','apoio','segurança','escuta','clareza','confiança','tranquilidade'];
+
+/* ---------- Utilidades ---------- */
+function $(s, r){ return (r || document).querySelector(s); }
+function h(tag, attrs){
+  var n = document.createElement(tag), k, v, i, c;
+  if (attrs) for (k in attrs){
+    v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === 'class') n.className = v;
+    else if (k.slice(0,2) === 'on') n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? '' : v);
+  }
+  var kids = Array.prototype.slice.call(arguments, 2);
+  kids = Array.prototype.concat.apply([], kids);
+  for (i = 0; i < kids.length; i++){
+    c = kids[i];
+    if (c == null || c === false) continue;
+    n.appendChild(c.nodeType ? c : document.createTextNode(String(c)));
+  }
+  return n;
+}
+function embaralha(a){
+  a = a.slice();
+  for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+  return a;
+}
+function lista(nomes){
+  if (nomes.length < 2) return nomes.join('');
+  return nomes.slice(0, -1).join(', ') + ' e ' + nomes[nomes.length - 1];
+}
+function aoTopo(box){ try{ box.scrollIntoView({block:'start'}); }catch(e){} }
+function novoJogo(){ return {ordem:JOGO.map(function(){ return embaralha([0,1,2]); }), i:0, escolhas:[]}; }
+
+var st = {quiz:{i:0, resp:[]}, jogo:novoJogo()};
+
+/* ---------- Abertura: fere ou fala ---------- */
+function demo(qual){
+  var fala = qual === 'fala';
+  $('#ver-fere').setAttribute('aria-pressed', String(!fala));
+  $('#ver-fala').setAttribute('aria-pressed', String(fala));
+  $('#demo-fere').hidden = fala;
+  $('#demo-fala').hidden = !fala;
+  var b = $(fala ? '#demo-fala .balao' : '#demo-fere .balao');
+  b.classList.remove('entra'); void b.offsetWidth; b.classList.add('entra');
+}
+
+/* ---------- Perfis a fundo ---------- */
+function montaPerfis(){
+  var box = $('#perfis');
+  ORDEM.forEach(function(k){
+    var P = PERFIS[k];
+    box.appendChild(h('article', {class:'perfil', 'data-p':k, id:'perfil-' + k},
+      h('header', null, h('span', {class:'letra', 'aria-hidden':'true'}, P.letra),
+        h('div', null, h('h3', null, P.nome), h('p', null, P.resumo))),
+      h('dl', null,
+        h('div', null, h('dt', null, 'Como fala'), h('dd', null, P.fala)),
+        h('div', null, h('dt', null, 'Onde escorrega'), h('dd', null, P.armadilha)),
+        h('div', null, h('dt', null, 'Como precisa ouvir'), h('dd', null, P.ouve)),
+        h('div', null, h('dt', null, 'CNV para este perfil'), h('dd', null, P.exemplo)))));
+  });
+}
+
+/* ---------- Quiz ---------- */
+function contaQuiz(resp){
+  var c = {D:0, I:0, S:0, C:0};
+  resp.forEach(function(k){ if (c[k] != null) c[k]++; });
+  return c;
+}
+function predominantes(c){
+  var max = Math.max(c.D, c.I, c.S, c.C);
+  return ORDEM.filter(function(k){ return c[k] === max; });
+}
+function renderQuiz(foco){
+  var box = $('#quiz'), Q = st.quiz;
+  box.textContent = '';
+  if (Q.i >= QUIZ.length){ resultadoQuiz(box); if (foco) aoTopo(box); return; }
+  var q = QUIZ[Q.i];
+  var titulo = h('h3', {class:'pergunta', tabindex:'-1'}, q.p);
+  box.appendChild(h('div', {class:'placar'}, h('span', null, 'Pergunta ' + (Q.i + 1) + ' de ' + QUIZ.length)));
+  box.appendChild(h('div', {class:'trilha', 'aria-hidden':'true'}, QUIZ.map(function(_, n){ return h('i', {class:n < Q.i ? 'feito' : null}); })));
+  box.appendChild(titulo);
+  box.appendChild(h('div', {class:'opcoes'}, q.o.map(function(par){
+    return h('button', {type:'button', class:'opcao', onclick:function(){ Q.resp[Q.i] = par[0]; Q.i++; renderQuiz(true); }}, par[1]);
+  })));
+  if (Q.i > 0) box.appendChild(h('button', {type:'button', class:'btn leve', onclick:function(){ Q.i--; renderQuiz(true); }}, 'Voltar'));
+  if (foco){ aoTopo(box); try{ titulo.focus({preventScroll:true}); }catch(e){} }
+}
+function resultadoQuiz(box){
+  var c = contaQuiz(st.quiz.resp), tops = predominantes(c);
+  var nomes = tops.map(function(k){ return PERFIS[k].nome; });
+  var titulo = tops.length === 1 ? 'Seu perfil predominante: ' + nomes[0]
+             : tops.length === 4 ? 'Você equilibra os quatro perfis'
+             : 'Deu empate: ' + lista(nomes);
+  box.appendChild(h('p', {class:'rotulo'}, 'Resultado'));
+  box.appendChild(h('h3', {class:'pergunta'}, titulo));
+  box.appendChild(h('ul', {class:'contagem'}, ORDEM.map(function(k){
+    var pingos = []; for (var n = 0; n < QUIZ.length; n++) pingos.push(h('i', {class:n < c[k] ? 'sim' : null}));
+    return h('li', {'data-p':k}, h('span', {class:'selo', 'aria-hidden':'true'}, k), h('span', {class:'nome'}, PERFIS[k].nome),
+      h('span', {class:'pingos', 'aria-hidden':'true'}, pingos), h('span', null, c[k] + ' de ' + QUIZ.length));
+  })));
+  if (tops.length === 4){
+    box.appendChild(h('p', null, 'Suas respostas se dividiram por igual. Você muda de jeito conforme a situação. Leia os quatro perfis abaixo e repare em qual armadilha você cai com mais frequência.'));
+  } else {
+    tops.forEach(function(k){
+      var P = PERFIS[k];
+      box.appendChild(h('div', {class:'resultado', 'data-p':k},
+        h('div', {class:'cab'}, h('span', {class:'selo', 'aria-hidden':'true'}, k), h('h4', null, P.nome)),
+        h('p', null, h('strong', null, 'Ponto forte. '), P.forte),
+        h('p', null, h('strong', null, 'Armadilha. '), P.escorrega),
+        h('p', null, h('strong', null, 'Dica de CNV. '), P.dica)));
+    });
+    box.appendChild(h('p', {class:'nota'}, 'Você tem um pouco dos quatro. O resultado mostra só a dose maior nas respostas de hoje.'));
+  }
+  box.appendChild(h('button', {type:'button', class:'btn leve', onclick:function(){ st.quiz = {i:0, resp:[]}; renderQuiz(true); }}, 'Refazer o quiz'));
+}
+
+/* ---------- Jogo ---------- */
+function acertos(J){ return J.escolhas.filter(function(e){ return e === 'cnv'; }).length; }
+function faixa(n){
+  if (n >= 7) return {nome:'Comunicador empático', texto:'Você adapta a fala a quem ouve sem abrir mão do que precisa.'};
+  if (n >= 4) return {nome:'Praticante', texto:'Você já reconhece a CNV. Releia a explicação das rodadas que errou e tente de novo.'};
+  return {nome:'Iniciante', texto:'Todo mundo começa aqui. Volte aos 4 passos e jogue outra vez.'};
+}
+function renderJogo(foco){
+  var box = $('#jogo-caixa'), J = st.jogo;
+  box.textContent = '';
+  if (J.i >= JOGO.length){ fimJogo(box); if (foco) aoTopo(box); return; }
+  var r = JOGO[J.i], P = PERFIS[r.perfil], esc = J.escolhas[J.i];
+  box.appendChild(h('div', {class:'placar'}, h('span', null, 'Rodada ' + (J.i + 1) + ' de ' + JOGO.length), h('strong', null, (acertos(J) * 10) + ' pontos')));
+  box.appendChild(h('div', {class:'com-quem', 'data-p':r.perfil}, h('span', {class:'selo', 'aria-hidden':'true'}, P.letra),
+    h('div', {class:'quem'}, h('span', null, 'Você fala com alguém de perfil'), h('strong', null, P.nome), h('span', null, P.resumo))));
+  box.appendChild(h('p', {class:'situ'}, h('span', {class:'etq'}, r.onde), r.situ));
+  box.appendChild(h('div', {class:'opcoes'}, J.ordem[J.i].map(function(oi){
+    var o = r.op[oi];
+    var cls = 'opcao' + (esc && o.t === 'cnv' ? ' certa' : '') + (esc && o.t === esc ? ' marcada' : '');
+    return h('button', {type:'button', class:cls, disabled:!!esc, onclick:function(){ J.escolhas[J.i] = o.t; renderJogo('retorno'); }},
+      esc ? h('span', {class:'tipo'}, TIPO[o.t]) : null, h('span', null, o.fala));
+  })));
+  if (esc){
+    var certa = r.op.filter(function(o){ return o.t === 'cnv'; })[0];
+    var minha = r.op.filter(function(o){ return o.t === esc; })[0];
+    var ret = esc === 'cnv'
+      ? h('div', {class:'retorno acerto', tabindex:'-1'}, h('strong', {class:'veredito'}, 'Isso é CNV. Mais 10 pontos.'), h('p', null, certa.por))
+      : h('div', {class:'retorno', tabindex:'-1'}, h('strong', {class:'veredito'}, esc === 'agr' ? 'Essa resposta é agressiva.' : 'Essa saída é passiva.'),
+          h('p', null, minha.por), h('p', null, h('strong', null, 'A resposta em CNV: '), certa.por));
+    box.appendChild(ret);
+    box.appendChild(h('button', {type:'button', class:'btn', onclick:function(){ J.i++; renderJogo('topo'); }}, J.i + 1 < JOGO.length ? 'Próxima rodada' : 'Ver resultado'));
+    if (foco === 'retorno'){ try{ ret.focus(); }catch(e){} }
+  }
+  if (foco === 'topo') aoTopo(box);
+}
+function fimJogo(box){
+  var J = st.jogo, n = acertos(J), f = faixa(n);
+  box.appendChild(h('p', {class:'rotulo'}, 'Resultado do jogo'));
+  box.appendChild(h('p', {class:'pontuacao'}, String(n * 10), h('small', null, ' de ' + (JOGO.length * 10) + ' pontos')));
+  box.appendChild(h('h3', {class:'pergunta'}, f.nome));
+  box.appendChild(h('p', null, f.texto));
+  var fracos = [];
+  box.appendChild(h('ul', {class:'contagem'}, ORDEM.map(function(k){
+    var total = 0, ok = 0;
+    JOGO.forEach(function(r, idx){ if (r.perfil === k){ total++; if (J.escolhas[idx] === 'cnv') ok++; } });
+    if (ok < total) fracos.push(PERFIS[k].nome);
+    var pingos = []; for (var m = 0; m < total; m++) pingos.push(h('i', {class:m < ok ? 'sim' : null}));
+    return h('li', {'data-p':k}, h('span', {class:'selo', 'aria-hidden':'true'}, k), h('span', {class:'nome'}, PERFIS[k].nome),
+      h('span', {class:'pingos', 'aria-hidden':'true'}, pingos), h('span', null, ok + ' de ' + total));
+  })));
+  if (fracos.length) box.appendChild(h('p', {class:'nota'}, 'Vale reler como falar com: ' + lista(fracos) + '.'));
+  box.appendChild(h('button', {type:'button', class:'btn', onclick:function(){ st.jogo = novoJogo(); renderJogo('topo'); }}, 'Jogar de novo'));
+}
+
+/* ---------- Monte sua frase ---------- */
+var CAMPOS = ['f-obs','f-sen','f-nec','f-ped'];
+function limpo(id){ return $('#' + id).value.replace(/\s+/g, ' ').trim().replace(/[\s.,;:!?]+$/, ''); }
+function fraseAtual(){
+  var v = CAMPOS.map(function(id){ return limpo(id) || '___'; });
+  return 'Quando ' + v[0] + ', eu sinto ' + v[1] + ', porque preciso de ' + v[2] + '. Você poderia ' + v[3] + '?';
+}
+function dica(id, texto){ var d = $('#' + id); d.hidden = !texto; d.textContent = texto || ''; }
+function avaliaFrase(){
+  var obs = limpo('f-obs'), sen = limpo('f-sen'), nec = limpo('f-nec'), ped = limpo('f-ped');
+  dica('d-obs', /(^|\s)(sempre|nunca|jamais|toda vez|todo dia)(\s|$)/i.test(obs) ? '“Sempre” e “nunca” viram julgamento. Descreva uma vez específica: dia, hora, o que aconteceu.' : '');
+  dica('d-sen', /(^|\s)que(\s|$)|ignorad|abandonad|humilhad|desrespeitad|rejeitad|tra[ií]d|manipulad|usad[oa]/i.test(sen) ? 'Isso descreve o que o outro fez, não o que você sente. Tente o nome de uma emoção: tristeza, medo, raiva.' : '');
+  dica('d-nec', /(^|\s)que\s+(voc[eê]|vc|ele|ela|eles|elas)(\s|$)/i.test(nec) ? '“Que você…” já é pedido. Aqui vai algo que não depende de uma pessoa: respeito, apoio, descanso.' : '');
+  dica('d-ped', /^(n[aã]o|para de|pare de|parar de)(\s|$)/i.test(ped) ? 'Peça o que você quer que aconteça, não o que quer que pare.' : '');
+  $('#f-saida').textContent = fraseAtual();
+}
+function montaFrase(){
+  document.querySelectorAll('.fichas').forEach(function(box){
+    var alvo = box.getAttribute('data-alvo');
+    (alvo === 'f-sen' ? SENTIMENTOS : NECESSIDADES).forEach(function(t){
+      box.appendChild(h('button', {type:'button', class:'ficha', onclick:function(){ $('#' + alvo).value = t; avaliaFrase(); }}, t));
+    });
+  });
+  CAMPOS.forEach(function(id){ $('#' + id).addEventListener('input', avaliaFrase); });
+  $('#f-limpar').addEventListener('click', function(){
+    CAMPOS.forEach(function(id){ $('#' + id).value = ''; });
+    avaliaFrase(); $('#f-aviso').textContent = 'Campos limpos. Escreva a sua conversa.'; $('#f-obs').focus();
+  });
+  $('#f-copiar').addEventListener('click', function(){
+    var saida = $('#f-saida'), aviso = $('#f-aviso');
+    function seleciona(){
+      try{ var r = document.createRange(); r.selectNodeContents(saida); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }catch(e){}
+      aviso.textContent = 'Frase selecionada. Toque e segure para copiar.';
+    }
+    try{
+      navigator.clipboard.writeText(saida.textContent).then(function(){ aviso.textContent = 'Frase copiada.'; }, seleciona);
+    }catch(e){ seleciona(); }
+  });
+  avaliaFrase();
+}
+
+/* ---------- Barra de seções ---------- */
+function montaNav(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.topo a'));
+  var calmo = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  links.forEach(function(a){
+    a.addEventListener('click', function(ev){
+      var alvo = document.getElementById(a.getAttribute('href').slice(1));
+      if (!alvo) return;
+      ev.preventDefault();
+      alvo.scrollIntoView({behavior:calmo ? 'auto' : 'smooth', block:'start'});
+    });
+  });
+  if (!('IntersectionObserver' in window)) return;
+  var obs = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){
+      if (!e.isIntersecting) return;
+      links.forEach(function(a){
+        var ativo = a.getAttribute('href') === '#' + e.target.id;
+        if (ativo) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
+    });
+  }, {rootMargin:'-30% 0px -60% 0px'});
+  links.forEach(function(a){ var s = document.getElementById(a.getAttribute('href').slice(1)); if (s) obs.observe(s); });
+}
+
+/* ---------- Início ---------- */
+function inicia(salvo){
+  salvo = salvo || {};
+  if (salvo.quiz && Array.isArray(salvo.quiz.resp) && typeof salvo.quiz.i === 'number') st.quiz = salvo.quiz;
+  if (salvo.jogo && Array.isArray(salvo.jogo.ordem) && salvo.jogo.ordem.length === JOGO.length && Array.isArray(salvo.jogo.escolhas) && typeof salvo.jogo.i === 'number') st.jogo = salvo.jogo;
+  $('#ver-fere').addEventListener('click', function(){ demo('fere'); });
+  $('#ver-fala').addEventListener('click', function(){ demo('fala'); });
+  montaPerfis(); renderQuiz(false); renderJogo(false); montaFrase(); montaNav();
+}
+inicia();
+})();
+</script>
+</body>
+</html>
